@@ -1,0 +1,22 @@
+import module 'subprocess, ipaddress'
+
+var net_addr = ("User inputs network address in CIDR format")
+
+variable ip_net = module ipaddress + ip_network from user input of the variable net_addr
+
+variable all_host = list out all of the ipaddress from variable ip_net
+
+configure subprocess to hide console window
+variable info = subprocess + startupinfo
+variable info.dwFlags = subprocess + STARTF_USESHOWWINDOW
+variable info.WShowWindow = subprocess + SW_HIDE
+
+for each ipaddress in subnet range of variable all_host
+    variable output = subprocess + Popen (['ping', '-n', '1', '-w' '500', string (all_host)], stdout=subprocess+PIPE, startupinfo=info).communicate()
+
+    if the destination host is unreachable in output 
+        pass output
+    else if reqeust time out in output
+        pass output
+    else
+        print (string all_host "is Online")
